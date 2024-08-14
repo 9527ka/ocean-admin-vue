@@ -69,7 +69,7 @@
 import type { PropType } from "vue";
 import { LinkTypeEnum } from ".";
 import { usePaging } from "@/hooks/usePaging";
-import { articleLists } from "@/api/article";
+import { apiArticleLists } from "@/api/article";
 import { Search } from "@element-plus/icons-vue";
 
 //TODO TODO
@@ -93,11 +93,6 @@ const selectData = ref<any>({
 const queryParams = reactive<any>({
     name: "",
     is_show: 1
-});
-
-const { pager, getLists, resetPage, resetParams } = usePaging({
-    fetchFun: articleLists,
-    params: queryParams,
 });
 
 const getSelectItem = (id: number) => {
