@@ -1,11 +1,7 @@
 <template>
     <div>
         <el-card class="!border-none mb-4" shadow="never">
-            <el-form
-                class="mb-[-16px]"
-                :model="queryParams"
-                inline
-            >
+            <el-form class="mb-[-16px]" :model="queryParams" inline>
                 <el-form-item label="标题" prop="name">
                     <el-input class="w-[280px]" v-model="queryParams.name" clearable placeholder="请输入标题" />
                 </el-form-item>
@@ -15,12 +11,8 @@
                 <el-form-item label="状态" prop="state">
                     <el-select class="w-[280px]" v-model="queryParams.state" clearable placeholder="请选择状态">
                         <el-option label="全部" value=""></el-option>
-                        <el-option 
-                            v-for="(item, index) in dictData.card_state"
-                            :key="index" 
-                            :label="item.name"
-                            :value="item.value"
-                        />
+                        <el-option v-for="(item, index) in dictData.card_state" :key="index" :label="item.name"
+                            :value="item.value" />
                     </el-select>
                 </el-form-item>
                 <el-form-item label="序列号" prop="serial_number">
@@ -32,30 +24,20 @@
                 <el-form-item label="核销状态" prop="redemption_state">
                     <el-select class="w-[280px]" v-model="queryParams.redemption_state" clearable placeholder="请选择核销状态">
                         <el-option label="全部" value=""></el-option>
-                        <el-option 
-                            v-for="(item, index) in dictData.redemption_state"
-                            :key="index" 
-                            :label="item.name"
-                            :value="item.value"
-                        />
+                        <el-option v-for="(item, index) in dictData.redemption_state" :key="index" :label="item.name"
+                            :value="item.value" />
                     </el-select>
                 </el-form-item>
                 <el-form-item label="创建时间" prop="create_time">
-                    <daterange-picker
-                        v-model:startTime="queryParams.start_time"
-                        v-model:endTime="queryParams.end_time"
-                    />
+                    <daterange-picker v-model:startTime="queryParams.start_time"
+                        v-model:endTime="queryParams.end_time" />
                 </el-form-item>
-                
+
                 <el-form-item>
                     <el-button type="primary" @click="resetPage">查询</el-button>
                     <el-button @click="resetParams">重置</el-button>
-                    <export-data
-                        class="ml-2.5"
-                        :fetch-fun="apiOceanCardLists"
-                        :params="queryParams"
-                        :page-size="pager.size"
-                    />
+                    <export-data class="ml-2.5" :fetch-fun="apiOceanCardLists" :params="queryParams"
+                        :page-size="pager.size" />
                 </el-form-item>
             </el-form>
         </el-card>
@@ -66,11 +48,7 @@
                 </template>
                 新增
             </el-button>
-            <el-button
-                v-perms="['ocean_card/delete']"
-                :disabled="!selectData.length"
-                @click="handleDelete(selectData)"
-            >
+            <el-button v-perms="['ocean_card/delete']" :disabled="!selectData.length" @click="handleDelete(selectData)">
                 删除
             </el-button>
             <div class="mt-4">
@@ -79,18 +57,19 @@
                     <el-table-column label="标题" prop="name" show-overflow-tooltip />
                     <el-table-column label="图片" prop="image">
                         <template #default="{ row }">
-                            <el-image style="width:50px;height:50px;" :src="row.image" />
+                            <el-image :src="row.image" :preview-src-list="[row.image]" class="image"
+                                style="width: 50px;margin-right: 10px" />
                         </template>
                     </el-table-column>
                     <el-table-column label="面值(USD)" prop="price" show-overflow-tooltip />
-                    <el-table-column label="卡密" prop="cdk" width="180" >
+                    <el-table-column label="卡密" prop="cdk" width="180">
                         <template #default="{ row }">
                             <div style="display:flex;">
                                 <div>
-                                    <div>{{row.serial_number}}</div>
-                                    <div>{{row.cdk}}</div>
+                                    <div>{{ row.serial_number }}</div>
+                                    <div>{{ row.cdk }}</div>
                                 </div>
-                                <icon class="copy-btn" title="复制" name="el-icon-CopyDocument" @click="copyText(row)"/>
+                                <icon class="copy-btn" title="复制" name="el-icon-CopyDocument" @click="copyText(row)" />
                             </div>
                         </template>
                     </el-table-column>
@@ -130,8 +109,15 @@
     </div>
 </template>
 <style>
-.copy-btn{
-    position: absolute;right: 10px;bottom: 40%;cursor: pointer;
+.el-table .el-table__cell {
+    z-index: unset;
+}
+
+.copy-btn {
+    position: absolute;
+    right: 10px;
+    bottom: 40%;
+    cursor: pointer;
 }
 </style>
 <script lang="ts" setup name="oceanCardLists">
@@ -203,9 +189,9 @@ onActivated(() => {
     getLists()
 })
 
-const copyText = async(row: any) => {
+const copyText = async (row: any) => {
     const textArea = document.createElement('textarea');
-    textArea.value = row.serial_number+"\n"+row.cdk;
+    textArea.value = row.serial_number + "\n" + row.cdk;
     document.body.appendChild(textArea);
     textArea.select();
     document.execCommand('copy');
@@ -214,4 +200,3 @@ const copyText = async(row: any) => {
 }
 getLists()
 </script>
-
