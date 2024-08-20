@@ -48,11 +48,11 @@
                                 通过
                             </el-button>
                             <el-button v-if="row.audit_status == 0" v-perms="['user_posters/check']" type="primary" link
-                                :disabled="row.audit_status == 1" @click="handleCheck(row.id, 2)">
+                                :disabled="row.audit_status == 9" @click="handleCheck(row.id, 9)">
                                 拒绝
                             </el-button>
                             <span v-if="row.audit_status == 1" style="color:#1c990b;">通过</span>
-                            <span v-if="row.audit_status == 2" style="color:#b11d0c;">拒绝</span>
+                            <span v-if="row.audit_status == 9" style="color:#b11d0c;">拒绝</span>
                         </template>
                     </el-table-column>
                 </el-table>

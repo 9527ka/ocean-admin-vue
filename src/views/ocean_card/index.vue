@@ -87,6 +87,11 @@
                             <span v-if="row.redemption_state == 0" style="color:#1c990b;">未核销</span>
                         </template>
                     </el-table-column>
+                    <el-table-column label="创建时间" prop="create_time" width="180">
+                        <template #default="{ row }">
+                            <span>{{ row.create_time ? timeFormat(row.create_time, 'yyyy-mm-dd hh:MM:ss') : '' }}</span>
+                        </template>
+                    </el-table-column>
                     <!-- <el-table-column label="操作" width="120" fixed="right">
                         <template #default="{ row }">
                              <el-button
