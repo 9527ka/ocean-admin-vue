@@ -28,8 +28,14 @@
             <el-card class="!border-none mt-4" shadow="never">
                 <el-table size="large" v-loading="pager.loading" :data="pager.lists">
                     <el-table-column label="一级用户" prop="user_name" min-width="120" />
+                    <el-table-column label="邀请时间" prop="create_time" min-width="120" />
                     <el-table-column label="二级用户" prop="child_1_name" min-width="130" />
-                    <el-table-column label="邀请时间" prop="create_time" min-width="140" />
+                    <el-form-item label="邀请时间">
+                        <template #default="{ row }">
+                            <span>{{ queryParams.child_1_create_time ? timeFormat(queryParams.child_1_create_time,
+            'yyyy-mm-dd hh:MM:ss') : '' }}</span>
+                        </template>
+                    </el-form-item>
                 </el-table>
                 <div class="flex justify-end mt-4">
                     <pagination v-model="pager" @change="getLists" />
