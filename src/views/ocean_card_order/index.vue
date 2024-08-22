@@ -65,12 +65,7 @@
                             </div>
                         </template>
                     </el-table-column>
-                    <el-table-column label="用户" prop="pay_method" width="150">
-                        <template #default="{ row }">
-                            <div>ID：{{ row.user_id }}</div>
-                            <div>{{ row.username }}</div>
-                        </template>
-                    </el-table-column>
+                    <el-table-column label="用户" prop="account" width="150" show-overflow-tooltip />
                     <el-table-column label="支付方式" prop="pay_method" width="180" show-overflow-tooltip />
                     <!-- <template #default="{ row }">
                             <div style="display: flex;">支付方式：<dict-value :options="dictData.pay_type"

@@ -1,22 +1,12 @@
 <template>
     <div class="edit-popup">
-        <popup
-            ref="popupRef"
-            :title="popupTitle"
-            :async="true"
-            width="60%"
-            @confirm="handleSubmit"
-            @close="handleClose"
-        >
+        <popup ref="popupRef" :title="popupTitle" :async="true" width="60%" @confirm="handleSubmit"
+            @close="handleClose">
             <el-form ref="formRef" :model="formData" label-width="90px" :rules="formRules">
-                <el-form-item label="版本号" prop="version_no">
+                <!-- <el-form-item label="版本号" prop="version_no">
                     <el-select class="flex-1" v-model="formData.version_no" clearable placeholder="请选择版本号">
-                        <el-option 
-                            v-for="(item, index) in dictData.version_no"
-                            :key="index" 
-                            :label="item.name"
-                            :value="parseInt(item.value)"
-                        />
+                        <el-option v-for="(item, index) in dictData.version_no" :key="index" :label="item.name"
+                            :value="parseInt(item.value)" />
                     </el-select>
                 </el-form-item>
                 <el-form-item label="是否支持多语言" prop="multi_language">
@@ -39,27 +29,19 @@
                             :value="item.value"
                         />
                     </el-select>
-                </el-form-item>
+                </el-form-item> -->
                 <el-form-item label="配置项key" prop="key">
                     <el-select class="flex-1" v-model="formData.key" clearable placeholder="请选择配置项key">
-                        <el-option 
-                            v-for="(item, index) in dictData.system_setting"
-                            :key="index" 
-                            :label="item.name"
-                            :value="item.value"
-                        />
+                        <el-option v-for="(item, index) in dictData.system_setting" :key="index" :label="item.name"
+                            :value="item.value" />
                     </el-select>
                 </el-form-item>
                 <el-form-item label="配置项的值" prop="value">
-                    <el-input v-model="formData.value" type="textarea" rows="4" clearable placeholder="请输入配置项的值" />
+                    <editor class="flex-1" v-model="formData.value" :height="500" />
                 </el-form-item>
                 <el-form-item label="是否生效" prop="status">
                     <el-radio-group v-model="formData.status" placeholder="请选择是否生效">
-                        <el-radio 
-                            v-for="(item, index) in dictData.status"
-                            :key="index"
-                            :label="parseInt(item.value)"
-                        >
+                        <el-radio v-for="(item, index) in dictData.status" :key="index" :label="parseInt(item.value)">
                             {{ item.name }}
                         </el-radio>
                     </el-radio-group>
@@ -142,8 +124,8 @@ const setFormData = async (data: Record<any, any>) => {
             formData[key] = data[key]
         }
     }
-    
-    
+
+
 }
 
 const getDetail = async (row: Record<string, any>) => {
@@ -157,9 +139,9 @@ const getDetail = async (row: Record<string, any>) => {
 // 提交按钮
 const handleSubmit = async () => {
     await formRef.value?.validate()
-    const data = { ...formData,  }
-    mode.value == 'edit' 
-        ? await apiSystemSettingEdit(data) 
+    const data = { ...formData, }
+    mode.value == 'edit'
+        ? await apiSystemSettingEdit(data)
         : await apiSystemSettingAdd(data)
     popupRef.value?.close()
     emit('success')

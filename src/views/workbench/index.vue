@@ -14,7 +14,7 @@
                         <div class="w-20">当前版本</div>
                         <span> {{ workbenchData.version.version }}</span>
                     </div>
-                    <div class="flex leading-9">
+                    <!-- <div class="flex leading-9">
                         <div class="w-20">获取渠道</div>
                         <div>
                             <a :href="workbenchData.version.channel.website" target="_blank">
@@ -28,7 +28,7 @@
                                 <el-button type="danger" size="small">Gitee</el-button>
                             </a>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
             </el-card>
             <el-card class="!border-none mb-4 flex-1" shadow="never">
@@ -43,47 +43,44 @@
 
                 <div class="flex flex-wrap">
                     <div class="w-1/2 md:w-1/4">
-                        <div class="leading-10">销售额</div>
-                        <div class="text-6xl">{{ workbenchData.today.today_sales }}</div>
+                        <div class="leading-10">用户总数</div>
+                        <div class="text-6xl">{{ workbenchData.today.total_new_user }}</div>
                         <div class="text-tx-secondary text-xs">
-                            总：{{ workbenchData.today.total_sales }}
+                            今日：{{ workbenchData.today.today_new_user }}
                         </div>
                     </div>
                     <div class="w-1/2 md:w-1/4">
-                        <div class="leading-10">成交订单</div>
-                        <div class="text-6xl">{{ workbenchData.today.order_num }}</div>
+                        <div class="leading-10">订单总数</div>
+                        <div class="text-6xl">{{ workbenchData.today.order_sum }}</div>
                         <div class="text-tx-secondary text-xs">
-                            总：{{ workbenchData.today.order_sum }}
+                            今日：{{ workbenchData.today.order_num }}
                         </div>
                     </div>
                     <div class="w-1/2 md:w-1/4">
-                        <div class="leading-10">新增用户</div>
-                        <div class="text-6xl">{{ workbenchData.today.today_new_user }}</div>
+                        <div class="leading-10">订单总额</div>
+                        <div class="text-6xl">{{ workbenchData.today.order_total }}</div>
                         <div class="text-tx-secondary text-xs">
-                            总：{{ workbenchData.today.total_new_user }}
+                            今日：{{ workbenchData.today.today_order_total }}
                         </div>
                     </div>
                     <div class="w-1/2 md:w-1/4">
-                        <div class="leading-10">新增访问量</div>
-                        <div class="text-6xl">{{ workbenchData.today.today_visitor }}</div>
+                        <div class="leading-10">销售卡总数</div>
+                        <div class="text-6xl">{{ workbenchData.today.total_sales }}</div>
                         <div class="text-tx-secondary text-xs">
-                            总：{{ workbenchData.today.total_visitor }}
+                            今日：{{ workbenchData.today.today_sales }}
                         </div>
                     </div>
                 </div>
             </el-card>
         </div>
-        <div class="function mb-4">
+        <!-- <div class="function mb-4">
             <el-card class="flex-1 !border-none" shadow="never">
                 <template #header>
                     <span>常用功能</span>
                 </template>
                 <div class="flex flex-wrap">
-                    <div
-                        v-for="item in workbenchData.menu"
-                        class="md:w-[12.5%] w-1/4 flex flex-col items-center"
-                        :key="item"
-                    >
+                    <div v-for="item in workbenchData.menu" class="md:w-[12.5%] w-1/4 flex flex-col items-center"
+                        :key="item">
                         <router-link :to="item.url" class="mb-3 flex flex-col items-center">
                             <image-contain width="40px" height="40px" :src="item?.image" />
                             <div class="mt-2">{{ item.name }}</div>
@@ -91,18 +88,14 @@
                     </div>
                 </div>
             </el-card>
-        </div>
+        </div> -->
         <div class="md:flex">
             <el-card class="flex-1 !border-none md:mr-4 mb-4" shadow="never">
                 <template #header>
                     <span>访问量趋势图</span>
                 </template>
                 <div>
-                    <v-charts
-                        style="height: 350px"
-                        :option="workbenchData.visitorOption"
-                        :autoresize="true"
-                    />
+                    <v-charts style="height: 350px" :option="workbenchData.visitorOption" :autoresize="true" />
                 </div>
             </el-card>
         </div>
@@ -138,7 +131,7 @@ const workbenchData: any = reactive({
             type: 'value'
         },
         legend: {
-            data: ['访问量']
+            data: ['注册量']
         },
         itemStyle: {
             // 点的颜色。
@@ -149,7 +142,7 @@ const workbenchData: any = reactive({
         },
         series: [
             {
-                name: '访问量',
+                name: '注册量',
                 data: [0],
                 type: 'line',
                 smooth: true

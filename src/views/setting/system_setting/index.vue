@@ -1,12 +1,8 @@
 <template>
     <div>
         <el-card class="!border-none mb-4" shadow="never">
-            <el-form
-                class="mb-[-16px]"
-                :model="queryParams"
-                inline
-            >
-                <el-form-item label="版本号" prop="version_no">
+            <el-form class="mb-[-16px]" :model="queryParams" inline>
+                <!-- <el-form-item label="版本号" prop="version_no">
                     <el-select class="w-[280px]" v-model="queryParams.version_no" clearable placeholder="请选择版本号">
                         <el-option label="全部" value=""></el-option>
                         <el-option 
@@ -38,27 +34,19 @@
                             :value="item.value"
                         />
                     </el-select>
-                </el-form-item>
+                </el-form-item> -->
                 <el-form-item label="配置项key" prop="key">
                     <el-select class="w-[280px]" v-model="queryParams.key" clearable placeholder="请选择配置项key">
                         <el-option label="全部" value=""></el-option>
-                        <el-option 
-                            v-for="(item, index) in dictData.system_setting"
-                            :key="index" 
-                            :label="item.name"
-                            :value="item.value"
-                        />
+                        <el-option v-for="(item, index) in dictData.system_setting" :key="index" :label="item.name"
+                            :value="item.value" />
                     </el-select>
                 </el-form-item>
                 <el-form-item label="是否生效" prop="status">
                     <el-select class="w-[280px]" v-model="queryParams.status" clearable placeholder="请选择是否生效">
                         <el-option label="全部" value=""></el-option>
-                        <el-option 
-                            v-for="(item, index) in dictData.status"
-                            :key="index" 
-                            :label="item.name"
-                            :value="item.value"
-                        />
+                        <el-option v-for="(item, index) in dictData.status" :key="index" :label="item.name"
+                            :value="item.value" />
                     </el-select>
                 </el-form-item>
                 <el-form-item>
@@ -74,17 +62,14 @@
                 </template>
                 新增
             </el-button>
-            <el-button
-                v-perms="['system_setting/delete']"
-                :disabled="!selectData.length"
-                @click="handleDelete(selectData)"
-            >
+            <el-button v-perms="['system_setting/delete']" :disabled="!selectData.length"
+                @click="handleDelete(selectData)">
                 删除
             </el-button>
             <div class="mt-4">
                 <el-table :data="pager.lists" @selection-change="handleSelectionChange">
                     <el-table-column type="selection" width="55" />
-                    <el-table-column label="版本号" prop="version_no">
+                    <!-- <el-table-column label="版本号" prop="version_no">
                         <template #default="{ row }">
                             <dict-value :options="dictData.version_no" :value="row.version_no" />
                         </template>
@@ -98,7 +83,7 @@
                         <template #default="{ row }">
                             <dict-value :options="dictData.lang_list" :value="row.language" />
                         </template>
-                    </el-table-column>
+                    </el-table-column> -->
                     <el-table-column label="配置项key" prop="key">
                         <template #default="{ row }">
                             <dict-value :options="dictData.system_setting" :value="row.key" />
@@ -112,20 +97,11 @@
                     </el-table-column>
                     <el-table-column label="操作" width="120" fixed="right">
                         <template #default="{ row }">
-                             <el-button
-                                v-perms="['system_setting/edit']"
-                                type="primary"
-                                link
-                                @click="handleEdit(row)"
-                            >
+                            <el-button v-perms="['system_setting/edit']" type="primary" link @click="handleEdit(row)">
                                 编辑
                             </el-button>
-                            <el-button
-                                v-perms="['system_setting/delete']"
-                                type="danger"
-                                link
-                                @click="handleDelete(row.id)"
-                            >
+                            <el-button v-perms="['system_setting/delete']" type="danger" link
+                                @click="handleDelete(row.id)">
                                 删除
                             </el-button>
                         </template>
@@ -203,4 +179,3 @@ const handleDelete = async (id: number | any[]) => {
 
 getLists()
 </script>
-
