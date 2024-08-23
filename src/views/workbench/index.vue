@@ -42,32 +42,39 @@
                 </template>
 
                 <div class="flex flex-wrap">
-                    <div class="w-1/2 md:w-1/4">
+                    <div class="w-1/2 md:w-1/5">
                         <div class="leading-10">用户总数</div>
                         <div class="text-6xl">{{ workbenchData.today.total_new_user }}</div>
                         <div class="text-tx-secondary text-xs">
                             今日：{{ workbenchData.today.today_new_user }}
                         </div>
                     </div>
-                    <div class="w-1/2 md:w-1/4">
+                    <div class="w-1/2 md:w-1/5">
                         <div class="leading-10">订单总数</div>
                         <div class="text-6xl">{{ workbenchData.today.order_sum }}</div>
                         <div class="text-tx-secondary text-xs">
                             今日：{{ workbenchData.today.order_num }}
                         </div>
                     </div>
-                    <div class="w-1/2 md:w-1/4">
+                    <div class="w-1/2 md:w-1/5">
                         <div class="leading-10">订单总额</div>
                         <div class="text-6xl">{{ workbenchData.today.order_total }}</div>
                         <div class="text-tx-secondary text-xs">
                             今日：{{ workbenchData.today.today_order_total }}
                         </div>
                     </div>
-                    <div class="w-1/2 md:w-1/4">
+                    <div class="w-1/2 md:w-1/5">
                         <div class="leading-10">销售卡总数</div>
                         <div class="text-6xl">{{ workbenchData.today.total_sales }}</div>
                         <div class="text-tx-secondary text-xs">
                             今日：{{ workbenchData.today.today_sales }}
+                        </div>
+                    </div>
+                    <div class="w-1/2 md:w-1/5">
+                        <div class="leading-10">首充人数</div>
+                        <div class="text-6xl">{{ workbenchData.today.first_recharge_count }}</div>
+                        <div class="text-tx-secondary text-xs">
+                            复充：{{ workbenchData.today.repeat_recharge_count }}
                         </div>
                     </div>
                 </div>

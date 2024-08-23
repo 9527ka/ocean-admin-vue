@@ -36,7 +36,11 @@
                             :value="item.value" />
                     </el-select>
                 </el-form-item>
-                <el-form-item label="配置项的值" prop="value">
+                <!-- <el-form-item label="描述" prop="value">
+                    <el-input class="flex-1" v-model="formData.remark" type="textarea" rows="4" clearable
+                        placeholder="请输入文章概述" />
+                </el-form-item> -->
+                <el-form-item label="内容" prop="value">
                     <editor class="flex-1" v-model="formData.value" :height="500" />
                 </el-form-item>
                 <el-form-item label="是否生效" prop="status">
@@ -78,6 +82,7 @@ const popupTitle = computed(() => {
 const formData = reactive({
     id: '',
     version_no: '',
+    remark: '',
     multi_language: '',
     language: '',
     key: '',
@@ -88,21 +93,21 @@ const formData = reactive({
 
 // 表单验证
 const formRules = reactive<any>({
-    version_no: [{
-        required: true,
-        message: '请选择版本号',
-        trigger: ['blur']
-    }],
-    multi_language: [{
-        required: true,
-        message: '请选择是否支持多语言',
-        trigger: ['blur']
-    }],
-    language: [{
-        required: true,
-        message: '请选择语种',
-        trigger: ['blur']
-    }],
+    // version_no: [{
+    //     required: true,
+    //     message: '请选择版本号',
+    //     trigger: ['blur']
+    // }],
+    // multi_language: [{
+    //     required: true,
+    //     message: '请选择是否支持多语言',
+    //     trigger: ['blur']
+    // }],
+    // language: [{
+    //     required: true,
+    //     message: '请选择语种',
+    //     trigger: ['blur']
+    // }],
     key: [{
         required: true,
         message: '请选择配置项key',
@@ -124,7 +129,6 @@ const setFormData = async (data: Record<any, any>) => {
             formData[key] = data[key]
         }
     }
-
 
 }
 

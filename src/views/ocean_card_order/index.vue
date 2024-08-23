@@ -65,14 +65,14 @@
                             </div>
                         </template>
                     </el-table-column>
-                    <el-table-column label="用户" prop="account" width="150" show-overflow-tooltip />
-                    <el-table-column label="支付方式" prop="pay_method" width="180" show-overflow-tooltip />
-                    <!-- <template #default="{ row }">
+                    <el-table-column label="用户" prop="account" width="120" show-overflow-tooltip />
+                    <el-table-column label="支付" prop="pay_method" width="240">
+                        <template #default="{ row }">
                             <div style="display: flex;">支付方式：<dict-value :options="dictData.pay_type"
                                     :value="row.pay_method" /></div>
-                            <div style="display: flex;">支付截图：<img :src="row.pay_img" /></div>
+                            <div style="display: flex;">哈希：{{ row.pay_hash }}</div>
                         </template>
-                    </el-table-column> -->
+                    </el-table-column>
                     <el-table-column label="支付截图" prop="pay_img">
                         <template #default="{ row }">
                             <el-image :src="row.pay_img" :preview-src-list="[row.pay_img]" class="image"

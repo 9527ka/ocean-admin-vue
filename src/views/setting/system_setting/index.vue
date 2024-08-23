@@ -42,13 +42,13 @@
                             :value="item.value" />
                     </el-select>
                 </el-form-item>
-                <el-form-item label="是否生效" prop="status">
+                <!-- <el-form-item label="是否生效" prop="status">
                     <el-select class="w-[280px]" v-model="queryParams.status" clearable placeholder="请选择是否生效">
                         <el-option label="全部" value=""></el-option>
                         <el-option v-for="(item, index) in dictData.status" :key="index" :label="item.name"
                             :value="item.value" />
                     </el-select>
-                </el-form-item>
+                </el-form-item> -->
                 <el-form-item>
                     <el-button type="primary" @click="resetPage">查询</el-button>
                     <el-button @click="resetParams">重置</el-button>
@@ -89,12 +89,8 @@
                             <dict-value :options="dictData.system_setting" :value="row.key" />
                         </template>
                     </el-table-column>
-                    <el-table-column label="配置项的值" prop="value" show-overflow-tooltip />
-                    <el-table-column label="是否生效" prop="status">
-                        <template #default="{ row }">
-                            <dict-value :options="dictData.status" :value="row.status" />
-                        </template>
-                    </el-table-column>
+                    <!-- <el-table-column label="描述" prop="remark" show-overflow-tooltip /> -->
+                    <el-table-column label="修改时间" prop="update_time" min-width="120" />
                     <el-table-column label="操作" width="120" fixed="right">
                         <template #default="{ row }">
                             <el-button v-perms="['system_setting/edit']" type="primary" link @click="handleEdit(row)">
