@@ -27,53 +27,132 @@
                 </el-form-item>
             </el-form>
         </el-card>
-        <el-card class="!border-none mt-4" shadow="never">
-            <el-table size="large" v-loading="pager.loading" :data="pager.lists">
-                <el-table-column label="ID" prop="id" min-width="90" />
-                <el-table-column label="用户名" prop="account" min-width="90" />
-                <el-table-column label="上级用户名" prop="parent_account" min-width="100" />
-                <el-table-column label="全名" prop="real_name" min-width="90" />
-                <el-table-column label="邮箱" prop="email" min-width="160" />
-                <el-table-column label="手机号" prop="mobile" min-width="100" />
-                <el-table-column label="积分" prop="points" min-width="60" />
-                <el-table-column label="邀请码" prop="icode" min-width="90" />
-                <el-table-column label="注册时间" prop="create_time" min-width="140" />
-                <el-table-column label="操作" width="120" fixed="right">
-                    <template #default="{ row }">
-                        <child-list class="inline-block mr-[10px]" @success="setData(123)" :account="row.account"
-                            :id="row.id">
-                            <el-button type="primary" size="small">查看下级</el-button>
-                        </child-list>
-                    </template>
-                </el-table-column>
-            </el-table>
-            <div class="flex justify-end mt-4">
+        <el-card class="!border-none" v-loading="pager.loading" shadow="never">
+            <el-button v-perms="['user/add']" type="primary" @click="handleAdd">
+                <template #icon>
+                    <icon name="el-icon-Plus" />
+                </template>
+                新增
+            </el-button>
+            <el-button v-perms="['user/delete']" :disabled="!selectData.length" @click="handleDelete(selectData)">
+                删除
+            </el-button>
+            <div class="mt-4">
+                <el-table :data="pager.lists" @selection-change="handleSelectionChange">
+                    <el-table-column type="selection" width="55" />
+                    <!-- <el-table-column label="ID" prop="id" min-width="90" /> -->
+                    <el-table-column label="用户" prop="account" width="200">
+                        <template #default="{ row }">
+                            <div>用户名：{{ row.account }}</div>
+                            <div>全名：{{ row.real_name }}</div>
+                        </template>
+                    </el-table-column>
+                    <el-table-column label="上级" prop="parent_account" min-width="100" />
+                    <el-table-column label="联系方式" prop="email" min-width="220">
+                        <template #default="{ row }">
+                            <div>{{ row.email }}</div>
+                            <div>{{ row.mobile }}</div>
+                        </template>
+                    </el-table-column>
+                    <el-table-column label="积分" prop="points" min-width="60" />
+                    <el-table-column label="邀请码" prop="icode" min-width="90" />
+                    <el-table-column label="消费" prop="email" min-width="100">
+                        <template #default="{ row }">
+                            <div>总：{{ row.order_total }}</div>
+                            <div>次：{{ row.order_count }}</div>
+                        </template>
+                    </el-table-column>
+                    <el-table-column label="注册时间" prop="create_time" min-width="180">
+                        <template #default="{ row }">
+                            <div>{{ row.create_time }}</div>
+                            <div v-if="row.login_device">设备：{{ row.login_device }}</div>
+                        </template>
+                    </el-table-column>
+                    <el-table-column label="操作" width="150" fixed="right">
+                        <template #default="{ row }">
+                            <child-list class="inline-block mr-[10px]" :account="row.account" :id="row.id">
+                                <el-button type="primary" size="small">下级</el-button>
+                            </child-list>
+                            <el-button v-perms="['user/edit']" type="primary" link @click="handleEdit(row)">
+                                编辑
+                            </el-button>
+                        </template>
+                    </el-table-column>
+                </el-table>
+            </div>
+            <div class="flex mt-4 justify-end">
                 <pagination v-model="pager" @change="getLists" />
             </div>
         </el-card>
+        <edit-popup v-if="showEdit" ref="editRef" :dict-data="dictData" @success="getLists" @close="showEdit = false" />
     </div>
 </template>
-<script lang="ts" setup name="consumerLists">
 
+<script lang="ts" setup name="userLists">
 import ChildList from './child_list.vue'
 import { usePaging } from '@/hooks/usePaging'
-import { getUserList } from '@/api/consumer'
+import { useDictData } from '@/hooks/useDictOptions'
+import { getUserList, apiUserDelete } from '@/api/consumer'
+import { timeFormat } from '@/utils/util'
+import feedback from '@/utils/feedback'
+import EditPopup from './edit.vue'
 
+const editRef = shallowRef<InstanceType<typeof EditPopup>>()
+// 是否显示编辑框
+const showEdit = ref(false)
+
+
+// 查询条件
 const queryParams = reactive({
-    account: '',
-    email: '',
+    password: '',
     mobile: '',
-    start_time: '',
-    end_time: ''
+    email: '',
+    points: '',
+    login_ip: '',
+    login_time: '',
+    login_device: '',
+    parent_id: '',
+    parent_2_id: ''
 })
 
-const { pager, getLists, resetPage, resetParams } = usePaging({
+// 选中数据
+const selectData = ref<any[]>([])
+
+// 表格选择后回调事件
+const handleSelectionChange = (val: any[]) => {
+    selectData.value = val.map(({ id }) => id)
+}
+
+// 获取字典数据
+const { dictData } = useDictData('')
+
+// 分页相关
+const { pager, getLists, resetParams, resetPage } = usePaging({
     fetchFun: getUserList,
     params: queryParams
 })
-onActivated(() => {
+
+// 添加
+const handleAdd = async () => {
+    showEdit.value = true
+    await nextTick()
+    editRef.value?.open('add')
+}
+
+// 编辑
+const handleEdit = async (data: any) => {
+    showEdit.value = true
+    await nextTick()
+    editRef.value?.open('edit')
+    editRef.value?.setFormData(data)
+}
+
+// 删除
+const handleDelete = async (id: number | any[]) => {
+    await feedback.confirm('确定要删除？')
+    await apiUserDelete({ id })
     getLists()
-})
+}
 
 getLists()
 </script>

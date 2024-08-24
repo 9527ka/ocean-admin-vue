@@ -2,13 +2,7 @@
 <template>
     <div class="user-setting">
         <el-card class="!border-none" shadow="never">
-            <el-form
-                ref="formRef"
-                class="ls-form"
-                :model="formData"
-                :rules="rules"
-                label-width="100px"
-            >
+            <el-form ref="formRef" class="ls-form" :model="formData" :rules="rules" label-width="100px">
                 <el-form-item label="头像：" prop="avatar">
                     <material-picker v-model="formData.avatar" :limit="1" />
                 </el-form-item>
@@ -27,34 +21,22 @@
 
                 <el-form-item label="当前密码：" prop="password_old">
                     <div class="w-80">
-                        <el-input
-                            v-model.trim="formData.password_old"
-                            placeholder="修改密码时必填, 不修改密码时留空"
-                            type="password"
-                            show-password
-                        />
+                        <el-input v-model.trim="formData.password_old" placeholder="修改密码时必填, 不修改密码时留空" type="password"
+                            show-password />
                     </div>
                 </el-form-item>
 
                 <el-form-item label="新的密码：" prop="password">
                     <div class="w-80">
-                        <el-input
-                            v-model.trim="formData.password"
-                            placeholder="修改密码时必填, 不修改密码时留空"
-                            type="password"
-                            show-password
-                        />
+                        <el-input v-model.trim="formData.password" placeholder="修改密码时必填, 不修改密码时留空" type="password"
+                            show-password />
                     </div>
                 </el-form-item>
 
                 <el-form-item label="确定密码：" prop="password_confirm">
                     <div class="w-80">
-                        <el-input
-                            v-model.trim="formData.password_confirm"
-                            placeholder="修改密码时必填, 不修改密码时留空"
-                            type="password"
-                            show-password
-                        />
+                        <el-input v-model.trim="formData.password_confirm" placeholder="修改密码时必填, 不修改密码时留空"
+                            type="password" show-password />
                     </div>
                 </el-form-item>
             </el-form>
