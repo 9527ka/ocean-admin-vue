@@ -41,19 +41,11 @@
                 <el-table :data="pager.lists" @selection-change="handleSelectionChange">
                     <el-table-column type="selection" width="55" />
                     <!-- <el-table-column label="ID" prop="id" min-width="90" /> -->
-                    <el-table-column label="用户" prop="account" width="200">
-                        <template #default="{ row }">
-                            <div>用户名：{{ row.account }}</div>
-                            <div>全名：{{ row.real_name }}</div>
-                        </template>
-                    </el-table-column>
+                    <el-table-column label="用户名" prop="account" width="100" />
+                    <el-table-column label="全名" prop="real_name" min-width="100" />
                     <el-table-column label="上级" prop="parent_account" min-width="100" />
-                    <el-table-column label="联系方式" prop="email" min-width="220">
-                        <template #default="{ row }">
-                            <div>{{ row.email }}</div>
-                            <div>{{ row.mobile }}</div>
-                        </template>
-                    </el-table-column>
+                    <el-table-column label="邮箱" prop="email" min-width="160" />
+                    <el-table-column label="手机号" prop="mobile" min-width="100" />
                     <el-table-column label="积分" prop="points" min-width="60" />
                     <el-table-column label="邀请码" prop="icode" min-width="90" />
                     <el-table-column label="消费" prop="email" min-width="100">
@@ -62,13 +54,14 @@
                             <div>次：{{ row.order_count }}</div>
                         </template>
                     </el-table-column>
-                    <el-table-column label="注册时间" prop="create_time" min-width="180">
+                    <el-table-column label="登录信息" prop="login_device" min-width="130">
                         <template #default="{ row }">
-                            <div>{{ row.create_time }}</div>
-                            <div v-if="row.login_device">设备：{{ row.login_device }}</div>
+                            <div v-if="row.login_device">{{ row.login_device }}</div>
+                            <div v-if="row.login_ip">{{ row.login_ip }}</div>
                         </template>
                     </el-table-column>
-                    <el-table-column label="操作" width="150" fixed="right">
+                    <el-table-column label="注册时间" prop="create_time" min-width="170" />
+                    <el-table-column label="操作" width="120" fixed="right">
                         <template #default="{ row }">
                             <child-list class="inline-block mr-[10px]" :account="row.account" :id="row.id">
                                 <el-button type="primary" size="small">下级</el-button>

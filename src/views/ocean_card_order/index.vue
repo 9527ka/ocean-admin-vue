@@ -21,8 +21,8 @@
                 <el-form-item label="兑换码" prop="cdk">
                     <el-input class="w-[280px]" v-model="queryParams.cdk" clearable placeholder="请输入兑换码" />
                 </el-form-item>
-                <el-form-item label="用户名" prop="username">
-                    <el-input class="w-[280px]" v-model="queryParams.username" clearable placeholder="请输入用户名" />
+                <el-form-item label="用户名" prop="account">
+                    <el-input class="w-[280px]" v-model="queryParams.account" clearable placeholder="请输入用户名" />
                 </el-form-item>
                 <el-form-item label="支付方式" prop="pay_method">
                     <el-select class="w-[280px]" v-model="queryParams.pay_method" clearable placeholder="请选择支付方式">
@@ -45,15 +45,15 @@
         <el-card class="!border-none" v-loading="pager.loading" shadow="never">
             <div class="mt-4">
                 <el-table :data="pager.lists" @selection-change="handleSelectionChange" style="font-size: 12px;">
-                    <el-table-column type="selection" width="55" />
+                    <!-- <el-table-column type="selection" width="55" /> -->
                     <!-- <el-table-column label="卡id" prop="card_id" show-overflow-tooltip /> -->
                     <el-table-column label="卡名称" prop="card_name" show-overflow-tooltip />
-                    <el-table-column label="面值(USD)" prop="price" show-overflow-tooltip />
-                    <!-- <el-table-column label="状态" prop="state">
+                    <el-table-column label="金额(USD)" prop="price">
                         <template #default="{ row }">
-                            <dict-value :options="dictData.order_status" :value="row.state" />
+                            <div>价格：{{ row.order_price }}</div>
+                            <div>面值：{{ row.price }}</div>
                         </template>
-</el-table-column> -->
+                    </el-table-column>
                     <el-table-column label="卡密" prop="pay_method" width="180">
                         <template #default="{ row }">
                             <div style="display:flex;">
@@ -139,7 +139,7 @@ const queryParams = reactive({
     state: '',
     serial_number: '',
     cdk: '',
-    username: '',
+    account: '',
     pay_method: '',
     create_time: '',
     start_time: '',
