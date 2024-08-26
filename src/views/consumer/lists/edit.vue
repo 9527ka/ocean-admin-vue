@@ -9,9 +9,6 @@
                 <el-form-item label="全名" prop="real_name">
                     <el-input v-model="formData.real_name" clearable placeholder="请输入全名" />
                 </el-form-item>
-                <el-form-item label="用户名" prop="account">
-                    <el-input v-model="formData.account" clearable placeholder="请输入用户名" />
-                </el-form-item>
                 <el-form-item label="手机号" prop="mobile">
                     <el-input v-model="formData.mobile" clearable placeholder="请输入手机号" />
                 </el-form-item>
@@ -50,7 +47,7 @@ const mode = ref('add')
 
 // 弹窗标题
 const popupTitle = computed(() => {
-    return mode.value == 'edit' ? '编辑用户' : '新增用户'
+    return mode.value == 'edit' ? '编辑用户：' + formData.account : '新增用户'
 })
 
 // 表单数据

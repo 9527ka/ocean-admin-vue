@@ -5,6 +5,9 @@
                 <el-form-item label="用户id" prop="user_id">
                     <el-input class="w-[280px]" v-model="queryParams.user_id" clearable placeholder="请输入用户id" />
                 </el-form-item>
+                <el-form-item label="用户名" prop="user_id">
+                    <el-input class="w-[280px]" v-model="queryParams.account" clearable placeholder="请输入用户名" />
+                </el-form-item>
                 <el-form-item label="审核状态" prop="audit_status">
                     <el-select class="w-[280px]" v-model="queryParams.audit_status" clearable placeholder="请选择审核状态">
                         <el-option label="全部" value=""></el-option>
@@ -24,6 +27,9 @@
             </el-form>
         </el-card>
         <el-card class="!border-none" v-loading="pager.loading" shadow="never">
+            <el-button v-perms="['user/delete']" :disabled="!selectData.length" @click="handleDelete(selectData)">
+                删除
+            </el-button>
             <div class="mt-4">
                 <el-table :data="pager.lists" @selection-change="handleSelectionChange">
                     <el-table-column type="selection" width="55" />
@@ -94,6 +100,7 @@ const showEdit = ref(false)
 // 查询条件
 const queryParams = reactive({
     user_id: '',
+    account: '',
     audit_status: '',
     create_time: '',
     start_time: '',

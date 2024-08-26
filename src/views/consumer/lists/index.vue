@@ -2,8 +2,8 @@
     <div>
         <el-card class="!border-none" shadow="never">
             <el-form ref="formRef" class="mb-[-16px]" :model="queryParams" :inline="true">
-                <el-form-item label="账号">
-                    <el-input class="w-[280px]" v-model="queryParams.account" placeholder="账号" clearable
+                <el-form-item label="用户名">
+                    <el-input class="w-[280px]" v-model="queryParams.account" placeholder="用户名" clearable
                         @keyup.enter="resetPage" />
                 </el-form-item>
                 <el-form-item label="邮箱">
@@ -40,7 +40,7 @@
             <div class="mt-4">
                 <el-table :data="pager.lists" @selection-change="handleSelectionChange">
                     <el-table-column type="selection" width="55" />
-                    <!-- <el-table-column label="ID" prop="id" min-width="90" /> -->
+                    <el-table-column label="ID" prop="id" min-width="90" />
                     <el-table-column label="用户名" prop="account" width="100" />
                     <el-table-column label="全名" prop="real_name" min-width="100" />
                     <el-table-column label="上级" prop="parent_account" min-width="100" />
@@ -97,6 +97,7 @@ const showEdit = ref(false)
 
 // 查询条件
 const queryParams = reactive({
+    account: '',
     password: '',
     mobile: '',
     email: '',
@@ -105,7 +106,9 @@ const queryParams = reactive({
     login_time: '',
     login_device: '',
     parent_id: '',
-    parent_2_id: ''
+    parent_2_id: '',
+    start_time: '',
+    end_time: ''
 })
 
 // 选中数据

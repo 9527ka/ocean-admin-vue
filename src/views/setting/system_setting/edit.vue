@@ -31,7 +31,8 @@
                     </el-select>
                 </el-form-item> -->
                 <el-form-item label="配置项key" prop="key">
-                    <el-select class="flex-1" v-model="formData.key" clearable placeholder="请选择配置项key">
+                    <el-select class="flex-1" v-model="formData.key" clearable placeholder="请选择配置项key"
+                        @change="handleSelectChange">
                         <el-option v-for="(item, index) in dictData.system_setting" :key="index" :label="item.name"
                             :value="item.value" />
                     </el-select>
@@ -41,7 +42,9 @@
                         placeholder="请输入文章概述" />
                 </el-form-item> -->
                 <el-form-item label="内容" prop="value">
-                    <editor class="flex-1" v-model="formData.value" :height="500" />
+                    <el-input v-model="formData.value" clearable placeholder="请输入首款地址"
+                        v-if="formData.key == 'address'" />
+                    <editor class="flex-1" v-model="formData.value" :height="500" v-else />
                 </el-form-item>
                 <el-form-item label="是否生效" prop="status">
                     <el-radio-group v-model="formData.status" placeholder="请选择是否生效">

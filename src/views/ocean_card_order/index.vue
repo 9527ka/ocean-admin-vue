@@ -39,13 +39,18 @@
                 <el-form-item>
                     <el-button type="primary" @click="resetPage">查询</el-button>
                     <el-button @click="resetParams">重置</el-button>
+                    <export-data class="ml-2.5" :fetch-fun="apiOceanCardOrderLists" :params="queryParams"
+                        :page-size="pager.size" />
                 </el-form-item>
             </el-form>
         </el-card>
         <el-card class="!border-none" v-loading="pager.loading" shadow="never">
+            <el-button v-perms="['user/delete']" :disabled="!selectData.length" @click="handleDelete(selectData)">
+                删除
+            </el-button>
             <div class="mt-4">
                 <el-table :data="pager.lists" @selection-change="handleSelectionChange" style="font-size: 12px;">
-                    <!-- <el-table-column type="selection" width="55" /> -->
+                    <el-table-column type="selection" width="55" />
                     <!-- <el-table-column label="卡id" prop="card_id" show-overflow-tooltip /> -->
                     <el-table-column label="卡名称" prop="card_name" show-overflow-tooltip />
                     <el-table-column label="金额(USD)" prop="price">
@@ -122,7 +127,7 @@
 <script lang="ts" setup name="oceanCardOrderLists">
 import { usePaging } from '@/hooks/usePaging'
 import { useDictData } from '@/hooks/useDictOptions'
-import { apiOceanCardOrderLists, apiOceanCardOrderCheck } from '@/api/ocean_card_order'
+import { apiOceanCardOrderLists, apiOceanCardOrderCheck, apiOceanCardOrderDelete } from '@/api/ocean_card_order'
 import { timeFormat } from '@/utils/util'
 import feedback from '@/utils/feedback'
 import EditPopup from './edit.vue'
@@ -164,12 +169,17 @@ const { pager, getLists, resetParams, resetPage } = usePaging({
 })
 
 // 添加
-const handleAdd = async () => {
-    showEdit.value = true
-    await nextTick()
-    editRef.value?.open('add')
+// const handleAdd = async () => {
+//     showEdit.value = true
+//     await nextTick()
+//     editRef.value?.open('add')
+// }
+// 删除
+const handleDelete = async (id: number | any[]) => {
+    await feedback.confirm('确定要删除？')
+    await apiOceanCardOrderDelete({ id })
+    getLists()
 }
-
 const handleCheck = async (id: number | any[], state: number | any[]) => {
     var state_txt = state == 1 ? '通过' : '拒绝';
     await feedback.confirm('确定' + state_txt + '审核？')
