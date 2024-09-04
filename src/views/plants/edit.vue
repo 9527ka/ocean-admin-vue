@@ -1,27 +1,25 @@
 <template>
     <div class="edit-popup">
-        <popup
-            ref="popupRef"
-            :title="popupTitle"
-            :async="true"
-            width="80%"
-            @confirm="handleSubmit"
-            @close="handleClose"
-        >
+        <popup ref="popupRef" :title="popupTitle" :async="true" width="80%" @confirm="handleSubmit"
+            @close="handleClose">
             <el-form ref="formRef" :model="formData" label-width="90px" :rules="formRules">
+                <el-form-item label="语言" prop="language">
+                    <el-select class="flex-1" v-model="formData.language" clearable placeholder="请选择语言">
+                        <el-option v-for="(item, index) in dictData.lang_list" :key="index" :label="item.name"
+                            :value="item.value" />
+                    </el-select>
+                </el-form-item>
                 <el-form-item label="标题" prop="title">
                     <el-input v-model="formData.title" clearable placeholder="请输入标题" />
                 </el-form-item>
-                <el-form-item label="描述" prop="desc">
-                    <el-input class="flex-1" v-model="formData.desc" type="textarea" rows="4" clearable placeholder="请输入描述" />
-                </el-form-item>
+                <!-- <el-form-item label="描述" prop="desc">
+                    <el-input class="flex-1" v-model="formData.desc" type="textarea" rows="4" clearable
+                        placeholder="请输入描述" />
+                </el-form-item> -->
                 <el-form-item label="推荐" prop="is_recommend">
                     <el-radio-group v-model="formData.is_recommend" placeholder="请选择推荐">
-                        <el-radio 
-                            v-for="(item, index) in dictData.is_recommend"
-                            :key="index"
-                            :label="parseInt(item.value)"
-                        >
+                        <el-radio v-for="(item, index) in dictData.is_recommend" :key="index"
+                            :label="parseInt(item.value)">
                             {{ item.name }}
                         </el-radio>
                     </el-radio-group>
@@ -62,6 +60,7 @@ const popupTitle = computed(() => {
 
 // 表单数据
 const formData = reactive({
+    language: '',
     id: '',
     title: '',
     desc: '',
@@ -78,11 +77,11 @@ const formRules = reactive<any>({
         message: '请输入标题',
         trigger: ['blur']
     }],
-    desc: [{
-        required: true,
-        message: '请输入描述',
-        trigger: ['blur']
-    }],
+    // desc: [{
+    //     required: true,
+    //     message: '请输入描述',
+    //     trigger: ['blur']
+    // }],
     is_recommend: [{
         required: true,
         message: '请选择推荐',
@@ -104,8 +103,8 @@ const setFormData = async (data: Record<any, any>) => {
             formData[key] = data[key]
         }
     }
-    
-    
+
+
 }
 
 const getDetail = async (row: Record<string, any>) => {
@@ -119,9 +118,9 @@ const getDetail = async (row: Record<string, any>) => {
 // 提交按钮
 const handleSubmit = async () => {
     await formRef.value?.validate()
-    const data = { ...formData,  }
-    mode.value == 'edit' 
-        ? await apiPlantsEdit(data) 
+    const data = { ...formData, }
+    mode.value == 'edit'
+        ? await apiPlantsEdit(data)
         : await apiPlantsAdd(data)
     popupRef.value?.close()
     emit('success')

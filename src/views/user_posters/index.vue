@@ -15,9 +15,9 @@
                             :value="item.value" />
                     </el-select>
                 </el-form-item>
-                <el-form-item label="创建时间" prop="create_time">
-                    <daterange-picker v-model:startTime="queryParams.start_time"
-                        v-model:endTime="queryParams.end_time" />
+                <el-form-item label="分享时间" prop="date">
+                    <el-date-picker v-model="queryParams.date" type="date" placeholder="选择日期" value-format="YYYY-MM-DD">
+                    </el-date-picker>
                 </el-form-item>
 
                 <el-form-item>
@@ -42,11 +42,7 @@
                                 style="width: 50px;margin-right: 10px" />
                         </template>
                     </el-table-column>
-                    <el-table-column label="创建时间" prop="create_time">
-                        <template #default="{ row }">
-                            <span>{{ row.create_time ? timeFormat(row.create_time, 'yyyy-mm-dd hh:MM:ss') : '' }}</span>
-                        </template>
-                    </el-table-column>
+                    <el-table-column label="分享时间" prop="date" />
                     <el-table-column label="审核" width="120" fixed="right">
                         <template #default="{ row }">
                             <el-button v-if="row.audit_status == 0" v-perms="['user_posters/check']" type="primary" link
@@ -99,12 +95,10 @@ const showEdit = ref(false)
 
 // 查询条件
 const queryParams = reactive({
+    date: '',
     user_id: '',
     account: '',
     audit_status: '',
-    create_time: '',
-    start_time: '',
-    end_time: ''
 })
 
 // 选中数据

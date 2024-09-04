@@ -1,0 +1,31 @@
+<html>
+
+<body>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        function getStatus() {
+            $.get("https://a.yuejie.online/adminapi/workbench/checkOrder", function (result) {
+                if (typeof result == 'string') result = JSON.parse(result);
+                console.log(result)
+                $('.recharge').html(result.recharge)
+                $('.deposit').html(result.deposit);
+                if (result.deposit > 0) {
+                    var strAudio = "<audio id='audioPlay' src='https://a.yuejie.online/static/audio/recharge.mp3' hidden='true'>";
+                    if ($("body").find("audio").length <= 0)
+                        $("body").append(strAudio);
+                    var audio = document.getElementById("audioPlay");
+                    //浏览器支持 audion
+                    audio.play();
+                }
+                $('#system-date').text(result.date);
+            });
+        }
+
+        getStatus();
+        setInterval(function () {
+            getStatus();
+        }, 30000) 
+    </script>
+</body>
+
+</html>

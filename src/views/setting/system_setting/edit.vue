@@ -8,31 +8,22 @@
                         <el-option v-for="(item, index) in dictData.version_no" :key="index" :label="item.name"
                             :value="parseInt(item.value)" />
                     </el-select>
-                </el-form-item>
-                <el-form-item label="是否支持多语言" prop="multi_language">
+                </el-form-item> -->
+                <el-form-item label="多语言" prop="multi_language">
                     <el-radio-group v-model="formData.multi_language" placeholder="请选择是否支持多语言">
-                        <el-radio 
-                            v-for="(item, index) in dictData.status"
-                            :key="index"
-                            :label="parseInt(item.value)"
-                        >
+                        <el-radio v-for="(item, index) in dictData.status" :key="index" :label="parseInt(item.value)">
                             {{ item.name }}
                         </el-radio>
                     </el-radio-group>
                 </el-form-item>
-                <el-form-item label="语种" prop="language">
-                    <el-select class="flex-1" v-model="formData.language" clearable placeholder="请选择语种">
-                        <el-option 
-                            v-for="(item, index) in dictData.lang_list"
-                            :key="index" 
-                            :label="item.name"
-                            :value="item.value"
-                        />
+                <el-form-item label="语言" prop="language">
+                    <el-select class="flex-1" v-model="formData.language" clearable placeholder="请选择语言">
+                        <el-option v-for="(item, index) in dictData.lang_list" :key="index" :label="item.name"
+                            :value="item.value" />
                     </el-select>
-                </el-form-item> -->
+                </el-form-item>
                 <el-form-item label="配置项key" prop="key">
-                    <el-select class="flex-1" v-model="formData.key" clearable placeholder="请选择配置项key"
-                        @change="handleSelectChange">
+                    <el-select class="flex-1" v-model="formData.key" clearable placeholder="请选择配置项key">
                         <el-option v-for="(item, index) in dictData.system_setting" :key="index" :label="item.name"
                             :value="item.value" />
                     </el-select>
@@ -108,7 +99,7 @@ const formRules = reactive<any>({
     // }],
     // language: [{
     //     required: true,
-    //     message: '请选择语种',
+    //     message: '请选择语言',
     //     trigger: ['blur']
     // }],
     key: [{

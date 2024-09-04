@@ -1,17 +1,8 @@
 <template>
     <div class="pagination">
-        <el-pagination
-            v-bind="props"
-            :pager-count="5"
-            v-model:currentPage="pager.page"
-            v-model:pageSize="pager.size"
-            :page-sizes="pageSizes"
-            :layout="layout"
-            :total="pager.count"
-            :hide-on-single-page="false"
-            @size-change="sizeChange"
-            @current-change="pageChange"
-        ></el-pagination>
+        <el-pagination v-bind="props" :pager-count="5" v-model:currentPage="pager.page" v-model:pageSize="pager.size"
+            :page-sizes="pageSizes" :layout="layout" :total="pager.count" :hide-on-single-page="false"
+            @size-change="sizeChange" @current-change="pageChange"></el-pagination>
     </div>
 </template>
 
@@ -23,7 +14,7 @@ interface Props {
 }
 const props = withDefaults(defineProps<Props>(), {
     modelValue: () => ({}),
-    pageSizes: () => [15, 20, 30, 40],
+    pageSizes: () => [15, 50, 100, 200, 500],
     layout: 'total, sizes, prev, pager, next, jumper'
 })
 

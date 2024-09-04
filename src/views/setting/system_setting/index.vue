@@ -12,29 +12,22 @@
                             :value="item.value"
                         />
                     </el-select>
-                </el-form-item>
-                <el-form-item label="是否支持多语言" prop="multi_language">
-                    <el-select class="w-[280px]" v-model="queryParams.multi_language" clearable placeholder="请选择是否支持多语言">
-                        <el-option label="全部" value=""></el-option>
-                        <el-option 
-                            v-for="(item, index) in dictData.status"
-                            :key="index" 
-                            :label="item.name"
-                            :value="item.value"
-                        />
-                    </el-select>
-                </el-form-item>
-                <el-form-item label="语种" prop="language">
-                    <el-select class="w-[280px]" v-model="queryParams.language" clearable placeholder="请选择语种">
-                        <el-option label="全部" value=""></el-option>
-                        <el-option 
-                            v-for="(item, index) in dictData.lang_list"
-                            :key="index" 
-                            :label="item.name"
-                            :value="item.value"
-                        />
-                    </el-select>
                 </el-form-item> -->
+                <el-form-item label="是否支持多语言" prop="multi_language">
+                    <el-select class="w-[280px]" v-model="queryParams.multi_language" clearable
+                        placeholder="请选择是否支持多语言">
+                        <el-option label="全部" value=""></el-option>
+                        <el-option v-for="(item, index) in dictData.status" :key="index" :label="item.name"
+                            :value="item.value" />
+                    </el-select>
+                </el-form-item>
+                <el-form-item label="语言" prop="language">
+                    <el-select class="w-[280px]" v-model="queryParams.language" clearable placeholder="请选择语言">
+                        <el-option label="全部" value=""></el-option>
+                        <el-option v-for="(item, index) in dictData.lang_list" :key="index" :label="item.name"
+                            :value="item.value" />
+                    </el-select>
+                </el-form-item>
                 <el-form-item label="配置项key" prop="key">
                     <el-select class="w-[280px]" v-model="queryParams.key" clearable placeholder="请选择配置项key">
                         <el-option label="全部" value=""></el-option>
@@ -73,17 +66,17 @@
                         <template #default="{ row }">
                             <dict-value :options="dictData.version_no" :value="row.version_no" />
                         </template>
-                    </el-table-column>
+                    </el-table-column> -->
                     <el-table-column label="是否支持多语言" prop="multi_language">
                         <template #default="{ row }">
                             <dict-value :options="dictData.status" :value="row.multi_language" />
                         </template>
                     </el-table-column>
-                    <el-table-column label="语种" prop="language">
+                    <el-table-column label="语言" prop="language">
                         <template #default="{ row }">
                             <dict-value :options="dictData.lang_list" :value="row.language" />
                         </template>
-                    </el-table-column> -->
+                    </el-table-column>
                     <el-table-column label="配置项key" prop="key">
                         <template #default="{ row }">
                             <dict-value :options="dictData.system_setting" :value="row.key" />

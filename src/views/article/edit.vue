@@ -1,45 +1,38 @@
 <template>
     <div class="edit-popup">
-        <popup
-            ref="popupRef"
-            :title="popupTitle"
-            :async="true"
-            width="80%"
-            @confirm="handleSubmit"
-            @close="handleClose"
-        >
+        <popup ref="popupRef" :title="popupTitle" :async="true" width="80%" @confirm="handleSubmit"
+            @close="handleClose">
             <el-form ref="formRef" :model="formData" label-width="90px" :rules="formRules">
+                <el-form-item label="语言" prop="language">
+                    <el-select class="flex-1" v-model="formData.language" clearable placeholder="请选择语言">
+                        <el-option v-for="(item, index) in dictData.lang_list" :key="index" :label="item.name"
+                            :value="item.value" />
+                    </el-select>
+                </el-form-item>
                 <el-form-item label="标题" prop="title">
                     <el-input v-model="formData.title" clearable placeholder="请输入标题" />
                 </el-form-item>
-                <el-form-item label="文章概述" prop="desc">
-                    <el-input class="flex-1" v-model="formData.desc" type="textarea" rows="4" clearable placeholder="请输入文章概述" />
-                </el-form-item>
-                <el-form-item label="主题" prop="theme">
+                <!-- <el-form-item label="文章概述" prop="desc">
+                    <el-input class="flex-1" v-model="formData.desc" type="textarea" rows="4" clearable
+                        placeholder="请输入文章概述" />
+                </el-form-item> -->
+                <!-- <el-form-item label="主题" prop="theme">
                     <el-input v-model="formData.theme" clearable placeholder="请输入主题" />
-                </el-form-item>
+                </el-form-item> -->
                 <el-form-item label="精选标志" prop="is_quality">
                     <el-radio-group v-model="formData.is_quality" placeholder="请选择精选标志">
-                        <el-radio 
-                            v-for="(item, index) in dictData.is_quality"
-                            :key="index"
-                            :label="parseInt(item.value)"
-                        >
+                        <el-radio v-for="(item, index) in dictData.is_quality" :key="index"
+                            :label="parseInt(item.value)">
                             {{ item.name }}
                         </el-radio>
                     </el-radio-group>
                 </el-form-item>
                 <el-form-item label="时间" prop="date">
-                    <el-date-picker 
-                        class="flex-1 !flex"
-                        v-model="formData.date"
-                        clearable
-                        type="date"
-                        value-format="YYYY-MM-DD"
-                        placeholder="选择时间">
+                    <el-date-picker class="flex-1 !flex" v-model="formData.date" clearable type="date"
+                        value-format="YYYY-MM-DD" placeholder="选择时间">
                     </el-date-picker>
                 </el-form-item>
-                
+
                 <el-form-item label="图片" prop="image">
                     <material-picker v-model="formData.image" />
                 </el-form-item>
@@ -76,10 +69,11 @@ const popupTitle = computed(() => {
 
 // 表单数据
 const formData = reactive({
+    language: '',
     id: '',
     title: '',
-    desc: '',
-    theme: '',
+    // desc: '',
+    // theme: '',
     is_quality: '',
     date: '',
     image: '',
@@ -94,16 +88,16 @@ const formRules = reactive<any>({
         message: '请输入标题',
         trigger: ['blur']
     }],
-    desc: [{
-        required: true,
-        message: '请输入文章概述',
-        trigger: ['blur']
-    }],
-    theme: [{
-        required: true,
-        message: '请输入主题',
-        trigger: ['blur']
-    }],
+    // desc: [{
+    //     required: true,
+    //     message: '请输入文章概述',
+    //     trigger: ['blur']
+    // }],
+    // theme: [{
+    //     required: true,
+    //     message: '请输入主题',
+    //     trigger: ['blur']
+    // }],
     is_quality: [{
         required: true,
         message: '请选择精选标志',
@@ -130,8 +124,8 @@ const setFormData = async (data: Record<any, any>) => {
             formData[key] = data[key]
         }
     }
-    
-    
+
+
 }
 
 const getDetail = async (row: Record<string, any>) => {
@@ -145,9 +139,9 @@ const getDetail = async (row: Record<string, any>) => {
 // 提交按钮
 const handleSubmit = async () => {
     await formRef.value?.validate()
-    const data = { ...formData,  }
-    mode.value == 'edit' 
-        ? await apiArticleEdit(data) 
+    const data = { ...formData, }
+    mode.value == 'edit'
+        ? await apiArticleEdit(data)
         : await apiArticleAdd(data)
     popupRef.value?.close()
     emit('success')
