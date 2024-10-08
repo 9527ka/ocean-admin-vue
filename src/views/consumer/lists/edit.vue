@@ -6,6 +6,9 @@
                 <el-form-item label="头像" prop="avatar">
                     <material-picker v-model="formData.avatar" />
                 </el-form-item>
+                <el-form-item label="用户名" prop="account" v-if="mode == 'add'">
+                    <el-input v-model="formData.account" clearable placeholder="请输入用户名" />
+                </el-form-item>
                 <el-form-item label="全名" prop="real_name">
                     <el-input v-model="formData.real_name" clearable placeholder="请输入全名" />
                 </el-form-item>
@@ -21,8 +24,11 @@
                 <el-form-item label="邀请码" prop="invitation_code" v-if="!formData.id">
                     <el-input v-model="formData.invitation_code" clearable placeholder="请输入邀请码" />
                 </el-form-item>
-                <el-form-item label="密码" prop="password">
+                <el-form-item label="密码" prop="password" v-if="formData.id">
                     <el-input v-model="formData.password" clearable placeholder="请输入密码(非必填，不修改留空)" />
+                </el-form-item>
+                <el-form-item label="密码" prop="password" v-else>
+                    <el-input v-model="formData.password" clearable placeholder="请输入密码(必填)" />
                 </el-form-item>
             </el-form>
         </popup>
@@ -91,8 +97,23 @@ const formRules = reactive<any>({
         message: '请输入积分',
         trigger: ['blur']
     }],
+    invitation_code: [{
+        required: true,
+        message: '请输入邀请码',
+        trigger: ['blur']
+    }],
+    password: [{
+        required: true,
+        message: '请输入密码',
+        trigger: ['blur']
+    }],
 })
-
+watch(mode, (newMode) => {
+    if (newMode === 'edit') {
+        formRules.invitation_code = [];
+        formRules.password = [];
+    }
+}, { immediate: true });
 
 // 获取详情
 const setFormData = async (data: Record<any, any>) => {

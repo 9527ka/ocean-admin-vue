@@ -92,15 +92,15 @@
                     <el-table-column label="操作" width="120" fixed="right">
                         <template #default="{ row }">
                             <el-button v-if="row.state == 0" v-perms="['ocean_card_order/check']" type="primary" link
-                                :disabled="row.state == 1" @click="handleCheck(row.id, 1)">
+                                :disabled="row.state == 1" @click="handleCheckPass(row.id, 1)">
                                 通过
                             </el-button>
                             <el-button v-if="row.state == 0" v-perms="['ocean_card_order/check']" type="primary" link
-                                :disabled="row.state == 1" @click="handleCheck(row.id, 2)">
+                                :disabled="row.state == 1" @click="handleCheck(row.id)">
                                 拒绝
                             </el-button>
                             <span v-if="row.state == 1" style="color:#1c990b;">审核通过</span>
-                            <span v-if="row.state == 2" style="color:#b11d0c;">审核拒绝</span>
+                            <span v-if="row.state == 2" style="color:#b11d0c;">审核拒绝<br>({{ row.remark }})</span>
                         </template>
                     </el-table-column>
                 </el-table>
@@ -109,7 +109,8 @@
                 <pagination v-model="pager" @change="getLists" />
             </div>
         </el-card>
-        <edit-popup v-if="showEdit" ref="editRef" :dict-data="dictData" @success="getLists" @close="showEdit = false" />
+        <check-popup v-if="showCheck" ref="checkRef" :dict-data="dictData" @success="getLists"
+            @close="showCheck = false" />
     </div>
 </template>
 <style>
@@ -130,12 +131,11 @@ import { useDictData } from '@/hooks/useDictOptions'
 import { apiOceanCardOrderLists, apiOceanCardOrderCheck, apiOceanCardOrderDelete } from '@/api/ocean_card_order'
 import { timeFormat } from '@/utils/util'
 import feedback from '@/utils/feedback'
-import EditPopup from './edit.vue'
+import CheckPopup from './check.vue'
 
-const editRef = shallowRef<InstanceType<typeof EditPopup>>()
+const checkRef = shallowRef<InstanceType<typeof CheckPopup>>()
 // 是否显示编辑框
-const showEdit = ref(false)
-
+const showCheck = ref(false)
 
 // 查询条件
 const queryParams = reactive({
@@ -168,19 +168,21 @@ const { pager, getLists, resetParams, resetPage } = usePaging({
     params: queryParams
 })
 
-// 添加
-// const handleAdd = async () => {
-//     showEdit.value = true
-//     await nextTick()
-//     editRef.value?.open('add')
-// }
+// 拒绝审核
+const handleCheck = async (id: any) => {
+    showCheck.value = true
+    await nextTick()
+    checkRef.value?.open('check')
+    checkRef.value?.setFormData(id)
+}
+
 // 删除
 const handleDelete = async (id: number | any[]) => {
     await feedback.confirm('确定要删除？')
     await apiOceanCardOrderDelete({ id })
     getLists()
 }
-const handleCheck = async (id: number | any[], state: number | any[]) => {
+const handleCheckPass = async (id: number | any[], state: number | any[]) => {
     var state_txt = state == 1 ? '通过' : '拒绝';
     await feedback.confirm('确定' + state_txt + '审核？')
     await apiOceanCardOrderCheck({ id, state })
